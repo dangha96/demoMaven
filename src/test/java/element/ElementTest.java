@@ -35,5 +35,14 @@ public class ElementTest extends Base {
         pa.CheckBox();
 
     }
+    @Test
+    public void WebTable() {
+        pa.clickWebtable();
+    }
+
+    @Test
+    public void Button(){
+        pa.ClickDouble();
+    }
 
 }

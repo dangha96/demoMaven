@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 
 import java.util.concurrent.TimeUnit;
@@ -20,6 +21,7 @@ public class Page {
     By radiobtn = By.xpath("//label[@for='yesRadio']");
 
     By checkBox = By.xpath("////label[@for='tree-node-notes']");
+
     //span[text()='Notes']/preceding-sibling::input
 //input[@id='yesRadio']/preceding-sibling::div[@class='custom-control custom-radio custom-control-inline']
     public Page(WebDriver base) {
@@ -75,8 +77,8 @@ public class Page {
 //        System.out.println("You have selected Yes");
 
 
-
     }
+
     public void ClickCheckBoxTab() {
 
         driver.findElement(By.xpath("//span[contains(text(), 'Check Box')]")).click();
@@ -84,7 +86,7 @@ public class Page {
 
     }
 
-    public void CheckBox (){
+    public void CheckBox() {
 //        driver.findElement(By.xpath("//button[@title='Toggle']")).click();
         driver.findElement(checkBox).click();
         checkToCheckBoxOrRadioByJava(checkBox);
@@ -109,6 +111,63 @@ public class Page {
         javascriptEx.executeScript("arguments[0].click();", element);
 
     }
+
+    public void clickWebtable() {
+
+        driver.findElement(By.xpath("//li[@class='btn btn-light active']")).click();
+        driver.navigate().to("https://www.demoqa.com/webtables");
+        driver.findElement(By.xpath("//button[@id='addNewRecordButton']")).click();
+        driver.findElement(By.cssSelector("#firstName")).sendKeys("dang");
+        driver.findElement(By.cssSelector("#lastName")).sendKeys("ha");
+        driver.findElement(By.cssSelector("#userEmail")).sendKeys("dangha@gmail.com");
+        driver.findElement(By.cssSelector("#age")).sendKeys("10");
+        driver.findElement(By.cssSelector("#salary")).sendKeys("10000");
+        driver.findElement(By.cssSelector("#department")).sendKeys("ABC");
+        boolean subBtnPresence = driver.findElement(By.cssSelector("#submit")).isDisplayed();
+        boolean subBtnEnable = driver.findElement(By.cssSelector("#submit")).isEnabled();
+
+        if (subBtnPresence == true && subBtnEnable == true) {
+            System.out.println("Button is enable and presence");
+            WebElement subBtn = driver.findElement(By.cssSelector("#submit"));
+            subBtn.click();
+        }
+
+    }
+
+    public void ClickDouble(){
+        driver.findElement(By.xpath("//li[@class='btn btn-light active']")).click();
+        driver.navigate().to("https://www.demoqa.com/buttons");
+        Actions act = new Actions(driver);
+
+//Double click on element
+        WebElement wb2 = driver.findElement(By.cssSelector("#doubleClickBtn"));
+        act.doubleClick(wb2).perform();
+        System.out.println("Click success");
+        String errorMess=driver.findElement(By.cssSelector("#doubleClickMessage")).getText();
+        Assert.assertEquals(errorMess, "You have done a double click");
+        System.out.println("You have done a double click");
+        //Right click
+        WebElement elementLocator = driver.findElement(By.cssSelector("#rightClickBtn"));
+        act.contextClick(elementLocator).perform();
+        String errorMess2=driver.findElement(By.cssSelector("#rightClickMessage")).getText();
+        Assert.assertEquals(errorMess2,"You have done a right click");
+        // click me
+        driver.findElement(By.xpath("//div[@class='mt-4']/following::button")).click();
+        String err3=driver.findElement(By.cssSelector("#dynamicClickMessage")).getText();
+        Assert.assertEquals(err3,"You have done a dynamic click");
+
+
+
+       }
+
+       public void UploadSeleniumSendKey(){
+           driver.findElement(By.xpath("//li[@class='btn btn-light active']")).click();
+           driver.navigate().to("https://www.demoqa.com/upload-download");
+           WebElement upload= driver.findElement(By.xpath("//input[@type='file']"));
+
+       }
+
+
 
     public void uncheckToCheckBox(By locator) {
         WebElement element = driver.findElement(locator);
